@@ -56,8 +56,8 @@
 ///
 /// ## Copyright, licence and disclaimer
 ///
-/// @date 21 Jan 2026
-/// @version 1002
+/// @date 21 Feb 2026
+/// @version 1003
 ///
 /// @copyright &copy; Pervasive Displays Inc., 2021-2026
 /// @copyright &copy; Etigues, 2010-2026

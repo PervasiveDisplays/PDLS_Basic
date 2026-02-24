@@ -48,10 +48,16 @@
 // Release 1000: Added support for UTF-8 strings
 // Release 1000: Added support for UTF-16 strings
 // Release 1000: Added support for 16-bit fonts
+// Release 1001: Improved 16-bit fonts generation
+// Release 1003: Improved stability
+// Release 1003: Added screens table
 //
 
 // Library header
 #include "Screen_EPD.h"
+
+// Screens table
+#include "Screen_EPD_Table.h"
 
 //
 // === Class section
@@ -118,120 +124,25 @@ void Screen_EPD::begin()
     s_driver->begin();
     setPowerProfile(POWER_MODE_MANUAL, POWER_SCOPE_NONE);
 
-    // Sizes
-    switch (u_codeSize)
+    // Sizes from table
+    bool _found = RESULT_ERROR;
+    for (size_t _index = 0; screenTable[_index].code > 0; _index += 1)
     {
-        case SIZE_150: // 1.50"
-        case SIZE_152: // 1.52"
-
-            v_screenSizeV = 200; // vertical = wide size
-            v_screenSizeH = 200; // horizontal = small size
+        if (u_codeSize == screenTable[_index].code)
+        {
+            v_screenSizeV = screenTable[_index].sizeV; // vertical = wide size
+            v_screenSizeH = screenTable[_index].sizeH; // horizontal = small size
+            _found = RESULT_SUCCESS;
             break;
+        }
+    }
 
-        case SIZE_154: // 1.54"
-
-            v_screenSizeV = 152; // vertical = wide size
-            v_screenSizeH = 152; // horizontal = small size
-            break;
-
-        case SIZE_206: // 2.06"
-
-            v_screenSizeV = 248; // vertical = wide size
-            v_screenSizeH = 128; // horizontal = small size
-            break;
-
-        case SIZE_213: // 2.13"
-
-            v_screenSizeV = 212; // vertical = wide size
-            v_screenSizeH = 104; // horizontal = small size
-            break;
-
-        case SIZE_266: // 2.66"
-
-            v_screenSizeV = 296; // vertical = wide size
-            v_screenSizeH = 152; // horizontal = small size
-            break;
-
-        case SIZE_271: // 2.71" and 2.71"-Touch
-
-            v_screenSizeV = 264; // vertical = wide size
-            v_screenSizeH = 176; // horizontal = small size
-            break;
-
-        case SIZE_287: // 2.87"
-
-            v_screenSizeV = 296; // vertical = wide size
-            v_screenSizeH = 128; // horizontal = small size
-            break;
-
-        case SIZE_290: // 2.90"
-
-            v_screenSizeV = 384; // vertical = wide size
-            v_screenSizeH = 168; // horizontal = small size
-            break;
-
-        case SIZE_340: // 3.40"
-        case SIZE_343: // 3.43" and 3.43"-Touch
-
-            v_screenSizeV = 392; // vertical = wide size
-            v_screenSizeH = 456; // horizontal = small size
-            break;
-
-        case SIZE_370: // 3.70" and 3.70"-Touch
-
-            v_screenSizeV = 416; // vertical = wide size
-            v_screenSizeH = 240; // horizontal = small size
-            break;
-
-        case SIZE_417: // 4.17"
-
-            v_screenSizeV = 300; // vertical = wide size
-            v_screenSizeH = 400; // horizontal = small size
-            break;
-
-        case SIZE_437: // 4.37"
-
-            v_screenSizeV = 480; // vertical = wide size
-            v_screenSizeH = 176; // horizontal = small size
-            break;
-
-        case SIZE_565: // 5.65"
-
-            v_screenSizeV = 600; // v = wide size
-            v_screenSizeH = 448; // h = small size
-            break;
-
-        case SIZE_581: // 5.81"
-
-            v_screenSizeV = 720; // v = wide size
-            v_screenSizeH = 256; // h = small size
-            break;
-
-        case SIZE_741: // 7.41"
-
-            v_screenSizeV = 800; // v = wide size
-            v_screenSizeH = 480; // h = small size
-            break;
-
-        case SIZE_969: // 9.69"
-
-            v_screenSizeV = 672; // v = wide size
-            v_screenSizeH = 960; // Actually, 960 = 480 x 2, h = small size
-            break;
-
-        case SIZE_1198: // 11.98"
-
-            v_screenSizeV = 768; // v = wide size
-            v_screenSizeH = 960; // Actually, 960 = 480 x 2, h = small size
-            break;
-
-        default:
-
-            hV_HAL_Serial_crlf();
-            hV_HAL_log(LEVEL_CRITICAL, "Screen %i-%cS-0%c is not supported", u_codeSize, u_codeFilm, u_codeDriver); // u_codeSize
-            hV_HAL_exit(RESULT_ERROR);
-            break;
-    } // u_codeSize
+    if (_found == RESULT_ERROR)
+    {
+        hV_HAL_Serial_crlf();
+        hV_HAL_log(LEVEL_CRITICAL, "Screen %i-%cS-0%c is not supported", u_codeSize, u_codeFilm, u_codeDriver);
+        hV_HAL_exit(RESULT_ERROR);
+    }
     v_screenDiagonal = u_codeSize;
 
     //

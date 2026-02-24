@@ -5,8 +5,8 @@
 /// @details Project Pervasive Displays Library Suite
 /// @n Based on highView technology
 ///
-/// @date 21 Dec 2025
-/// @version 1001
+/// @date 21 Feb 2025
+/// @version 1003
 ///
 /// @copyright (c) Pervasive Displays Inc., 2021-2026
 /// @copyright (c) Etigues, 2010-2026
@@ -50,7 +50,7 @@
 ///
 /// @brief Library release number
 ///
-#define SCREEN_EPD_RELEASE 1001
+#define SCREEN_EPD_RELEASE 1003
 
 #include "Driver_EPD_Virtual.h"
 
@@ -118,27 +118,36 @@ class Screen_EPD final : public hV_Screen_Buffer
     ///
     /// @brief Regenerate the panel
     /// @details White-to-black-to-white cycle to reduce ghosting
-    /// @param mode default = UPDATE_NORMAL = normal mode
+    /// @param mode default = `UPDATE_NORMAL` = normal mode
     ///
     void regenerate(uint8_t mode = UPDATE_NORMAL);
 
     //
     // === Power section
     //
+    ///
+    /// @brief Set panelPower pin
+    /// @param panelPowerPin panelPower pin
+    /// @note EXT4 requires panelPower
+    /// @note If flashCS defined with panelPowerPin, then flashCS set to NOT_CONNECTED
+    /// @warning setPanelPowerPin() should be called before begin()
+    ///
+    void setPanelPowerPin(uint8_t panelPowerPin = NOT_CONNECTED);
+
     /// @brief Set the power profile
-    /// @param mode default = POWER_MODE_AUTO, otherwise POWER_MODE_MANUAL
-    /// @param scope default = POWER_SCOPE_GPIO_ONLY, otherwise POWER_SCOPE_GPIO_BUS, POWER_SCOPE_NONE
-    /// @note If panelPower is NOT_CONNECTED, (POWER_MODE_AUTO, POWER_SCOPE_GPIO_ONLY) defaults to (POWER_MODE_MANUAL, POWER_SCOPE_NONE)
-    /// @note Call suspend(POWER_SCOPE_GPIO_BUS) manually
+    /// @param mode default = `POWER_MODE_AUTO`, otherwise `POWER_MODE_MANUAL`
+    /// @param scope default = `POWER_SCOPE_GPIO_ONLY`, otherwise `POWER_SCOPE_GPIO_BUS`, `POWER_SCOPE_NONE`
+    /// @note If panelPower is `NOT_CONNECTED`, `(POWER_MODE_AUTO, POWER_SCOPE_GPIO_ONLY)` defaults to `(POWER_MODE_MANUAL, POWER_SCOPE_NONE)`
+    /// @note Call `suspend(POWER_SCOPE_GPIO_BUS)` manually
     /// @note Advanced edition only
     ///
     void setPowerProfile(uint8_t mode = POWER_MODE_AUTO, uint8_t scope = POWER_SCOPE_GPIO_ONLY);
 
     ///
     /// @brief Suspend
-    /// @param bus include SPI bus, default = POWER_SCOPE_GPIO_ONLY, otherwise POWER_SCOPE_BUS_GPIO or POWER_SCOPE_NONE
-    /// @details Power off and set all GPIOs low, POWER_SCOPE_BUS_GPIO also turns SPI off
-    /// @note If panelPower is NOT_CONNECTED, POWER_SCOPE_GPIO_ONLY defaults to POWER_SCOPE_NONE
+    /// @param bus include SPI bus, default = `POWER_SCOPE_GPIO_ONLY`, otherwise `POWER_SCOPE_BUS_GPIO` or `POWER_SCOPE_NONE`
+    /// @details Power off and set all GPIOs low, `POWER_SCOPE_BUS_GPIO` also turns SPI off
+    /// @note If panelPower is `NOT_CONNECTED`, `POWER_SCOPE_GPIO_ONLY` defaults to `POWER_SCOPE_NONE`
     /// @note Advanced edition only
     ///
     void suspend(uint8_t suspendScope = POWER_SCOPE_GPIO_ONLY);
@@ -156,15 +165,6 @@ class Screen_EPD final : public hV_Screen_Buffer
     //
     // === Temperature section
     //
-    ///
-    /// @brief Set panelPower pin
-    /// @param panelPowerPin panelPower pin
-    /// @note EXT4 requires panelPower
-    /// @note If flashCS defined with panelPowerPin, then flashCS set to NOT_CONNECTED
-    /// @warning setPanelPowerPin() should be called before begin()
-    ///
-    void setPanelPowerPin(uint8_t panelPowerPin = NOT_CONNECTED);
-
     ///
     /// @brief Set temperature in Celsius
     /// @details Set the temperature for update
