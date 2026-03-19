@@ -5,8 +5,8 @@
 /// @details Project Pervasive Displays Library Suite
 /// @n Based on highView technology
 ///
-/// @date 21 Feb 2026
-/// @version 1003
+/// @date 21 Mar 2026
+/// @version 1004
 ///
 /// @copyright (c) Pervasive Displays Inc., 2021-2026
 /// @copyright (c) Etigues, 2010-2026
@@ -35,8 +35,8 @@
 // SDK and configuration
 #include "PDLS_Common.h"
 
-#if (PDLS_COMMON_RELEASE < 1003)
-#error Required PDLS_COMMON_RELEASE 1003
+#if (PDLS_COMMON_RELEASE < 1004)
+#error Required PDLS_COMMON_RELEASE 1004
 #endif // PDLS_COMMON_RELEASE
 
 #ifndef EDITION_BASIC
@@ -47,7 +47,7 @@
 ///
 /// @brief Library release number
 ///
-#define PDLS_BASIC_RELEASE 1003
+#define PDLS_BASIC_RELEASE 1004
 
 #include "Screen_EPD.h"
 
