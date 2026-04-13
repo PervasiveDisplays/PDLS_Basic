@@ -5,8 +5,8 @@
 /// @details Example for Pervasive Displays Library Suite
 /// @n Based on highView technology
 ///
-/// @date 21 Nov 2025
-/// @version 1000
+/// @date 21 Apr 2026
+/// @version 1005
 ///
 /// @copyright (c) Pervasive Displays Inc., 2021-2026
 /// @copyright All rights reserved
@@ -61,7 +61,7 @@ uint8_t fontSmall, fontMedium, fontLarge, fontVery;
 #if (DISPLAY_WHOAMI == 1)
 
 ///
-/// @brief Who am i? test screen
+/// @brief Who am I? test screen
 ///
 /// @image html T2_WHOAMI.jpg
 /// @image latex T2_WHOAMI.PDF width=10cm
@@ -69,49 +69,50 @@ uint8_t fontSmall, fontMedium, fontLarge, fontVery;
 void displayWhoAmI()
 {
     myScreen.setOrientation(ORIENTATION_LANDSCAPE);
-    myScreen.selectFont(fontMedium);
 
     uint16_t x = 4;
     uint16_t y = 4;
-    uint16_t dy = myScreen.characterSizeY();
 
+    myScreen.selectFont(fontLarge);
     myScreen.gText(x, y, "Who Am I");
     myScreen.gText(x + 1, y, "Who Am I");
-    y += dy;
+    y += myScreen.characterSizeY();
+
+    myScreen.selectFont(fontMedium);
+    uint16_t dy = myScreen.characterSizeY();
 
 #if (STRING_MODE == USE_STRING_OBJECT)
 
     // formatString() requires char * as input
-    myScreen.gText(x, y, formatString("Screen %s", myScreen.WhoAmI().c_str()));
+    myScreen.gText(x, y, formatString("%8s %s", "Screen", myScreen.WhoAmI().c_str()));
     y += dy;
-    myScreen.gText(x, y, formatString("Size %ix%i", myScreen.screenSizeX(), myScreen.screenSizeY()));
+    myScreen.gText(x, y, formatString("%8s %ix%i", "Size", myScreen.screenSizeX(), myScreen.screenSizeY()));
     y += dy;
-    myScreen.gText(x, y, formatString("Number %s", myScreen.screenNumber().c_str()));
+    myScreen.gText(x, y, formatString("%8s %s", "Number", myScreen.screenNumber().c_str()));
     y += dy;
-    myScreen.gText(x, y, formatString("Driver %s", myDriver.reference().c_str()));
+    myScreen.gText(x, y, formatString("%8s %s", "Driver", myDriver.reference().c_str()));
     y += dy;
-    myScreen.gText(x, y, formatString("PDLS %s", myScreen.reference().c_str()));
+    myScreen.gText(x, y, formatString("%8s %s", "PDLS", myScreen.reference().c_str()));
     y += dy;
 
 #elif (STRING_MODE == USE_CHAR_ARRAY)
 
     // formatString() requires char * as input
-    myScreen.gText(x, y, formatString("Screen %s", myScreen.WhoAmI()));
+    myScreen.gText(x, y, formatString("%8s %s", "Screen", myScreen.WhoAmI()));
     y += dy;
-    myScreen.gText(x, y, formatString("Size %ix%i", myScreen.screenSizeX(), myScreen.screenSizeY()));
+    myScreen.gText(x, y, formatString("%8s %ix%i", "Size", myScreen.screenSizeX(), myScreen.screenSizeY()));
     y += dy;
-    myScreen.gText(x, y, formatString("Number %s", myScreen.screenNumber()));
+    myScreen.gText(x, y, formatString("%8s %s", "Number", myScreen.screenNumber()));
     y += dy;
-    myScreen.gText(x, y, formatString("Driver %s", myDriver.reference()));
+    myScreen.gText(x, y, formatString("%8s %s", "Driver", myDriver.reference()));
     y += dy;
-    myScreen.gText(x, y, formatString("PDLS %s", myScreen.reference()));
+    myScreen.gText(x, y, formatString("%8s %s", "PDLS", myScreen.reference()));
     y += dy;
 
 #endif // STRING_MODE
 
-    char * name = "Colours ";
-    myScreen.gText(x, y, name);
-    x += myScreen.stringSizeX(name);
+    myScreen.gText(x, y, formatString("%8s", "Colours"));
+    x += 9 * myScreen.characterSizeX();
 
     myScreen.setPenSolid(true);
     myScreen.dRectangle(x + dy * 0, y, dy - 1, dy - 1, myColours.black);

@@ -5,8 +5,8 @@
 /// @details Example for Pervasive Displays Library Suite
 /// @n Based on highView technology
 ///
-/// @date 21 Nov 2025
-/// @version 1000
+/// @date 21 Apr 2026
+/// @version 1005
 ///
 /// @copyright (c) Pervasive Displays Inc., 2021-2026
 /// @copyright All rights reserved
@@ -64,7 +64,6 @@ uint8_t fontSmall, fontMedium, fontLarge, fontVery;
 void displayWhoAmI()
 {
     myScreen.setOrientation(ORIENTATION_LANDSCAPE);
-    myScreen.selectFont(fontMedium);
 
     uint16_t x = 4;
     uint16_t y = 4;
@@ -107,9 +106,8 @@ void displayWhoAmI()
 
 #endif // STRING_MODE
 
-    char * name = "Colours ";
-    myScreen.gText(x, y, name);
-    x += myScreen.stringSizeX(name);
+    myScreen.gText(x, y, formatString("%8s", "Colours"));
+    x += 9 * myScreen.characterSizeX();
 
     myScreen.setPenSolid(true);
     myScreen.dRectangle(x + dy * 0, y, dy - 1, dy - 1, myColours.black);
