@@ -1,6 +1,6 @@
 # Pervasive Displays Library Suite - Basic edition
 
-[![Release](https://img.shields.io/github/v/release/rei-vilo/PDLS_Basic)](https://github.com/rei-vilo/PDLS_Basic/releases) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9f09780839f7479285cb931ffe4954d7)](https://app.codacy.com/gh/rei-vilo/PDLS_Basic/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) ![Arduino lint](https://github.com/rei-vilo/PDLS_Basic/actions/workflows/main.yml/badge.svg) [![GitHub issues](https://img.shields.io/github/issues/pervasivedisplays/PDLS_Basic)](https://github.com/rei-vilo/PDLS_Basic/issues) [![](https://img.shields.io/badge/-Knowledge_Base-orange)](https://docs.pervasivedisplays.com/knowledge/) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rei-vilo/PDLS_Basic)
+[![Release](https://img.shields.io/github/v/release/rei-vilo/PDLS_Basic)](https://github.com/rei-vilo/PDLS_Basic/releases) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9f09780839f7479285cb931ffe4954d7)](https://app.codacy.com/gh/rei-vilo/PDLS_Basic/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) ![Arduino lint](https://github.com/rei-vilo/PDLS_Basic/actions/workflows/main.yml/badge.svg) [![GitHub issues](https://img.shields.io/github/issues/pervasivedisplays/PDLS_Basic)](https://github.com/rei-vilo/PDLS_Basic/issues) [![](https://img.shields.io/badge/-Knowledge_Base-orange)](https://docs.pervasivedisplays.com/knowledge/)
 
 The Pervasive Displays Library Suite is specifically designed for the [Pervasive Displays](https://www.pervasivedisplays.com) e-paper screens, extension boards and evaluation kits.
 
@@ -16,7 +16,7 @@ The **PDLS_Basic** edition supports the screens
 
 the extension boards
 
-* [EPD Extension Kit Gen 3 (EXT3 or EXT3.1)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-3-EXT3/),
+* [EPD Extension Kit Gen 3 (EXT3, EXT3.1 and EXT3.2)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-3-EXT3/),
 * [Touch Expansion Board for EXT3 (EXT3-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/) for EXT3.1,
 * ![](https://img.shields.io/badge/-NEW-orange) Pervasive Displays [EPD Extension Kit Gen 4 (EXT4)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-4-EXT4/) and EXT4-to-Nano adapter boards;
 
@@ -76,7 +76,7 @@ Software
 
 Hardware
 
-* Pervasive Displays EPD Extension Kit Gen 3 (EXT3 or EXT3.1)
+* Pervasive Displays EPD Extension Kit Gen 3 (EXT3, EXT3.1 and EXT3.2)
 * ![](https://img.shields.io/badge/-NEW-orange) Pervasive Displays EPD Extension Kit Gen 4 (EXT4)
 * Pervasive Displays iTC black-white-red-yellow colour screens (film `Q`)
 * Pervasive Displays iTC monochrome screens with wide temperature and embedded fast update (film `K`).

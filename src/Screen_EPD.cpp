@@ -51,6 +51,7 @@
 // Release 1001: Improved 16-bit fonts generation
 // Release 1003: Improved stability
 // Release 1003: Added screens table
+// Release 1005: Added support for EXT3.2
 //
 
 // Library header
@@ -553,7 +554,7 @@ void Screen_EPD::flush()
 
             default:
 
-                s_driver->updateNormal(s_newImage, s_newImage + u_pageColourSize, u_pageColourSize);
+                s_driver->updateNormal(s_newImage, s_newImage + u_pageColourSize, u_pageColourSize); // black, red
                 break;
         }
     }
@@ -953,15 +954,17 @@ void Screen_EPD::setPowerProfile(uint8_t mode, uint8_t scope)
 void Screen_EPD::suspend(uint8_t suspendScope)
 {
     // s_driver->b_suspend(); // GPIO
-    if (s_driver->b_pin.panelPower != NOT_CONNECTED)
+    if (s_driver->b_pin.panelPower == NOT_CONNECTED)
     {
-        if ((suspendScope & FSM_GPIO_MASK) == FSM_GPIO_MASK)
+        suspendScope &= ~FSM_GPIO_MASK;
+    }
+
+    if ((suspendScope & FSM_GPIO_MASK) == FSM_GPIO_MASK)
+    {
+        if ((s_driver->b_fsmPowerScreen & FSM_GPIO_MASK) == FSM_GPIO_MASK)
         {
-            if ((s_driver->b_fsmPowerScreen & FSM_GPIO_MASK) == FSM_GPIO_MASK)
-            {
-                s_driver->b_suspend(); // GPIO
-                s_driver->b_fsmPowerScreen &= ~FSM_GPIO_MASK;
-            }
+            s_driver->b_suspend(); // GPIO
+            s_driver->b_fsmPowerScreen &= ~FSM_GPIO_MASK;
         }
     }
 }

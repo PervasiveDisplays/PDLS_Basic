@@ -1,5 +1,5 @@
 ///
-/// @file Common_WhoAmI.ino
+/// @file EXT32_WhoAmI.ino
 /// @brief Example for Pervasive Displays Library Suite - All editions
 ///
 /// @details Example for Pervasive Displays Library Suite
@@ -46,14 +46,44 @@ Screen_EPD myScreen(&myDriver);
 #endif // SCREEN_EPD_RELEASE
 
 // Fonts
+#if (FONT_MODE == USE_FONT16_HEADER)
+#include "hV_Font16_Latin_DejaVu.h"
+#endif
 uint8_t fontSmall, fontMedium, fontLarge, fontVery;
 
 // Prototypes
 
 // Utilities
+///
+/// @brief Wait with countdown
+/// @param second duration, s
+///
+void wait(uint8_t second)
+{
+    for (uint8_t i = second; i > 0; i--)
+    {
+        hV_HAL_log(LEVEL_INFO, "Wait %i", i);
+        hV_HAL_delayMilliseconds(1000);
+    }
+    hV_HAL_Serial_crlf();
+}
 
 // Functions
 #if (DISPLAY_WHOAMI == 1)
+
+void displayLine(uint16_t x, uint16_t y, const char * name, const char * value)
+{
+    myScreen.selectFont(fontMedium);
+    uint16_t tx = myScreen.screenSizeY() / 3;
+    uint16_t dx = myScreen.characterSizeY();
+
+    myScreen.gText(x + tx - myScreen.stringSizeX(name), y, name);
+
+    myScreen.selectFont(fontSmall);
+    uint16_t dy = myScreen.characterSizeY();
+if (dx > dy) { dy = (dx - dy) / 2;}
+    myScreen.gText(x + tx + dx, y + dy, value);
+}
 
 ///
 /// @brief Who am I? test screen
@@ -76,38 +106,66 @@ void displayWhoAmI()
     myScreen.selectFont(fontMedium);
     uint16_t dy = myScreen.characterSizeY();
 
+    char memory[64] = {0};
+#if (SRAM_MODE == USE_INTERNAL_MCU)
+    strcat(memory, "MCU");
+#elif (SRAM_MODE == USE_EXTERNAL_SPI)
+    strcat(memory, "SPI");
+#else
+    strcat(memory, "?");
+#endif // SRAM_MODE
+    strcat(memory, " buffer, ");
+
+#if (FONT_MODE == USE_FONT16_HEADER)
+    strcat(memory, "Header16");
+#elif (FONT_MODE == USE_FONT_HEADER)
+    strcat(memory, "Header");
+#elif (FONT_MODE == USE_FONT_FLASH)
+    strcat(memory, "Flash");
+#elif (FONT_MODE == USE_FONT_TERMINAL)
+    strcat(memory, "Terminal");
+#else
+    strcat(memory, "?");
+#endif // FONT_MODE
+    strcat(memory, " fonts ");
+
 #if (STRING_MODE == USE_STRING_OBJECT)
 
     // formatString() requires char * as input
-    myScreen.gText(x, y, formatString("%8s %s", "Screen", myScreen.WhoAmI().c_str()));
+    displayLine(x, y, "Screen", myScreen.WhoAmI().c_str());
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %ix%i", "Size", myScreen.screenSizeX(), myScreen.screenSizeY()));
+    displayLine(x, y, "Size", formatString("%ix%i", myScreen.screenSizeX(), myScreen.screenSizeY()).c_str());
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %s", "Number", myScreen.screenNumber().c_str()));
+    displayLine(x, y, "Number", myScreen.screenNumber().c_str());
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %s", "Driver", myDriver.reference().c_str()));
+    displayLine(x, y, "Memory", memory);
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %s", "PDLS", myScreen.reference().c_str()));
+    displayLine(x, y, "Driver", myDriver.reference().c_str());
+    y += dy;
+    displayLine(x, y, "PDLS", myScreen.reference().c_str());
     y += dy;
 
 #elif (STRING_MODE == USE_CHAR_ARRAY)
 
-    // formatString() requires char * as input
-    myScreen.gText(x, y, formatString("%8s %s", "Screen", myScreen.WhoAmI()));
+    displayLine(x, y, "Screen", myScreen.WhoAmI());
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %ix%i", "Size", myScreen.screenSizeX(), myScreen.screenSizeY()));
+    displayLine(x, y, "Size", formatString("%ix%i", myScreen.screenSizeX(), myScreen.screenSizeY()));
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %s", "Number", myScreen.screenNumber()));
+    displayLine(x, y, "Number", myScreen.screenNumber());
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %s", "Driver", myDriver.reference()));
+    displayLine(x, y, "Memory", memory);
     y += dy;
-    myScreen.gText(x, y, formatString("%8s %s", "PDLS", myScreen.reference()));
+    displayLine(x, y, "Driver", myDriver.reference());
+    y += dy;
+    displayLine(x, y, "PDLS", myScreen.reference());
     y += dy;
 
 #endif // STRING_MODE
 
-    myScreen.gText(x, y, formatString("%8s", "Colours"));
-    x += 9 * myScreen.characterSizeX();
+    myScreen.selectFont(fontMedium);
+    uint16_t tx = myScreen.screenSizeY() / 3;
+    displayLine(x, y, "Colours", "");
+    x = x + tx + dy;
 
     myScreen.setPenSolid(true);
     myScreen.dRectangle(x + dy * 0, y, dy - 1, dy - 1, myColours.black);
@@ -129,6 +187,7 @@ void displayWhoAmI()
 #endif // WITH_COLOURS_BWRY
     }
 
+    myScreen.setPenSolid(false);
     myScreen.flushFast();
 }
 
@@ -147,6 +206,7 @@ void setup()
     hV_HAL_Serial_crlf();
 
     // Screen
+    myScreen.setPanelPowerPin(myBoard.panelPower);
     myScreen.begin();
 
     // Fonts
@@ -176,14 +236,14 @@ void setup()
     hV_HAL_log(LEVEL_INFO, "DISPLAY_WHOAMI");
     myScreen.clear();
     displayWhoAmI();
-    hV_HAL_delayMilliseconds(8000);
+    wait(8);
 
 #endif // DISPLAY_WHOAMI
 
     hV_HAL_log(LEVEL_INFO, "Regenerate");
     myScreen.regenerate();
 
-    hV_HAL_exit();
+    hV_HAL_exit(RESULT_SUCCESS);
 }
 
 ///

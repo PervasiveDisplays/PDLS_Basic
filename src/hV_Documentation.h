@@ -44,7 +44,7 @@
 ///
 /// the extension boards
 ///
-/// * [EPD Extension Kit Gen 3 (EXT3 or EXT3.1)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-3-EXT3/),
+/// * [EPD Extension Kit Gen 3 (EXT3, EXT3.1 and EXT3.2)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-3-EXT3/),
 /// * [Touch Expansion Board for EXT3 (EXT3-Touch)](https://www.pervasivedisplays.com/product/touch-expansion-board-ext3-touch/) for EXT3.1,
 /// * [EPD Extension Kit Gen 4 (EXT4)](https://www.pervasivedisplays.com/product/epd-extension-kit-gen-4-EXT4/);
 ///
@@ -56,8 +56,8 @@
 ///
 /// ## Copyright, licence and disclaimer
 ///
-/// @date 21 Mar 2026
-/// @version 1004
+/// @date 21 Apr 2026
+/// @version 1005
 ///
 /// @copyright &copy; Pervasive Displays Inc., 2021-2026
 /// @copyright &copy; Etigues, 2010-2026
@@ -98,7 +98,7 @@
 /// @deprecated The following features are deprecated.
 /// * The `utf2iso()` function is deprecated.
 ///
-/// @note The technical note [Migrate from release 9 to release 10](https://pdls.pervasivedisplays.com/userguide/Volume5/Chapter1/Part6/Section23/) provides more information.
+/// @note The technical note [Migrate from release 9 to release 10](https://docs.pervasivedisplays.com//knowledge/Software/Volume5/Chapter1/Part6/Section23.html) provides more information.
 ///
 /// @page Release9 Legacy release 9
 ///
